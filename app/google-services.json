@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "511192967550",
+    "firebase_url": "https://finalapp-37e23.firebaseio.com",
+    "project_id": "finalapp-37e23",
+    "storage_bucket": "finalapp-37e23.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:511192967550:android:c561fb28effdb398516b2f",
+        "android_client_info": {
+          "package_name": "com.andresdiaz.finalapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "511192967550-rb1ve5golmtvsmeaijai8v87eikgigeo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdccD4V-RzpxsHkqec_XjGxaTEAV3F99s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "511192967550-rb1ve5golmtvsmeaijai8v87eikgigeo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
