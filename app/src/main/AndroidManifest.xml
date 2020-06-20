@@ -9,18 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.ForgotPasswordActivity"></activity>
-        <activity android:name=".activities.SignUpActivity">
-        </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".activities.LoginActivity"
-            android:theme="@style/NoPreview"
-            android:windowSoftInputMode="adjustPan">
+        <activity
+            android:theme="@android:style/Theme.NoDisplay"
+            android:name=".activities.MainEmptyActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".activities.ForgotPasswordActivity" />
+        <activity android:name=".activities.SignUpActivity"></activity>
+        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".activities.LoginActivity"
+            android:theme="@style/NoPreview"
+            android:windowSoftInputMode="adjustPan">
         </activity>
     </application>
 
