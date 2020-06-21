@@ -4,19 +4,15 @@ package com.andresdiaz.finalapp
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.get
 import androidx.viewpager.widget.ViewPager
 import com.andresdiaz.finalapp.adapters.PagerAdapter
 import com.andresdiaz.finalapp.fragments.ChatFragment
 import com.andresdiaz.finalapp.fragments.InfoFragment
 import com.andresdiaz.finalapp.fragments.RatesFragment
 import com.andresdiaz.mylibrary.ToolbarActivity
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity :ToolbarActivity() {
-    private val mAuth: FirebaseAuth by lazy{ FirebaseAuth.getInstance()}
-    private lateinit var adapter: PagerAdapter
     private var prevBottomSelected: MenuItem?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,9 +25,10 @@ class MainActivity :ToolbarActivity() {
     }
 
     private fun getPagerAdapter(): PagerAdapter{
-        adapter.addFragment(ChatFragment())
+        val adapter=PagerAdapter(supportFragmentManager)
         adapter.addFragment(InfoFragment())
         adapter.addFragment(RatesFragment())
+        adapter.addFragment(ChatFragment())
         return adapter
     }
 
@@ -54,7 +51,7 @@ class MainActivity :ToolbarActivity() {
     }
 
     private fun setUpBottomNavigationBar(){
-        bottomNavigation.setOnNavigationItemReselectedListener {item ->
+        bottomNavigation.setOnNavigationItemSelectedListener {item ->
             when(item.itemId){
                 R.id.bottom_nav_info->{
                     viewPager.currentItem=0;true
