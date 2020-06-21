@@ -1,15 +1,17 @@
 package com.andresdiaz.finalapp
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.google.firebase.auth.FirebaseAuth
 
-class MainActivity : AppCompatActivity() {
+import android.os.Bundle   
+import androidx.appcompat.widget.Toolbar
+import com.andresdiaz.mylibrary.ToolbarActivity
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_main.*
+
+class MainActivity :ToolbarActivity() {
     private val mAuth: FirebaseAuth by lazy{ FirebaseAuth.getInstance()}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mAuth.signOut()
-
+        toolbarToLoad(toolbarView as Toolbar)
     }
 }
