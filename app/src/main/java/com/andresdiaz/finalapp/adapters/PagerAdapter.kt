@@ -9,6 +9,4 @@ class PagerAdapter (fm: FragmentManager): FragmentPagerAdapter(fm,BEHAVIOR_RESUM
     fun addFragment(fragment: Fragment)=fragmentList.add(fragment)
     override fun getItem(position: Int)= fragmentList[position]
     override fun getCount()= fragmentList.size
-
-
 }
