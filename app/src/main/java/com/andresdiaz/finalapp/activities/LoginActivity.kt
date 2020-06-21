@@ -127,8 +127,13 @@ class LoginActivity : AppCompatActivity() {
 
    private fun loginByGoogleAccountIntoFirebase(googleAccount: GoogleSignInAccount){
         val credential = GoogleAuthProvider.getCredential(googleAccount.idToken,null)
-        mAuth.signInWithCredential(credential).addOnCompleteListener(this){
-            toast("Signed In by Google! ")
+        mAuth.signInWithCredential(credential).addOnCompleteListener(this){task->
+            if(task.isSuccessful){
+              mSignInClient.signOut()
+            }
+            goToActivity<MainActivity>{
+                flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
         }
     }
 
