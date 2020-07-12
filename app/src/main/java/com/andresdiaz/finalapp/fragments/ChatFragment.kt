@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.andresdiaz.finalapp.R
 import com.andresdiaz.finalapp.adapters.ChatAdapter
 import com.andresdiaz.finalapp.models.Message
+import com.andresdiaz.finalapp.toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_chat.view.*
 import kotlinx.android.synthetic.main.fragment_chat.view.editTextMessage
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 class ChatFragment : Fragment() {
     private lateinit var _view: View
@@ -47,6 +49,7 @@ class ChatFragment : Fragment() {
     private fun setUpChatDB(){
         chatDBRef=store.collection("chat")
     }
+
     private fun setUpCurrentUser(){
         currentUser=mAuth.currentUser!!
 
@@ -60,12 +63,29 @@ class ChatFragment : Fragment() {
         _view.recyclerViewChat.itemAnimator=DefaultItemAnimator()
         _view.recyclerViewChat.adapter=adapter
     }
+
     private fun setUpChatBtn(){
         _view.buttonSend.setOnClickListener{
             val messageText=editTextMessage.text.toString()
             val message =Message(currentUser.uid,messageText,currentUser.photoUrl.toString(),Date())
-            //guardar mensaje en firebase
-              _view.editTextMessage.setText("")
+            saveMessage(message)
+            _view.editTextMessage.setText("")
         }
     }
+
+    private fun saveMessage(message:Message){
+        val newMesage= hashMapOf<String,Any>()
+        newMesage["authorId"]=message.authorId
+        newMesage["message"]=message.message
+        newMesage["profileImageURL"]=message.profileImageURL
+        newMesage["sentAt"]=message.sentAt
+        chatDBRef.add(newMesage)
+            .addOnCompleteListener{
+                activity!!.toast("Message addes!")
+            }
+            .addOnFailureListener{
+                activity!!.toast("Message error, try again!")
+            }
+    }
+
 }
