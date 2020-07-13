@@ -13,14 +13,12 @@ import com.andresdiaz.finalapp.models.Message
 import com.andresdiaz.finalapp.toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_chat.view.*
 import kotlinx.android.synthetic.main.fragment_chat.view.editTextMessage
 import java.util.*
+import java.util.EventListener
 import kotlin.collections.ArrayList
 
 
@@ -32,6 +30,8 @@ class ChatFragment : Fragment() {
     private lateinit var currentUser: FirebaseUser
     private val  store: FirebaseFirestore= FirebaseFirestore.getInstance()
     private lateinit var chatDBRef: CollectionReference
+
+    private var chatSubscription: ListenerRegistration?=null
 
 
 
@@ -92,7 +92,10 @@ class ChatFragment : Fragment() {
     }
 
     private fun subscribeToChatMessages(){
-        chatDBRef.addSnapshotListener(object :EventListener,com.google.firebase.firestore.EventListener<QuerySnapshot>{
+        chatSubscription=chatDBRef
+            .orderBy("sentAt", Query.Direction.DESCENDING)
+            .limit(10)
+            .addSnapshotListener(object :EventListener,com.google.firebase.firestore.EventListener<QuerySnapshot>{
             override fun onEvent(snapshot: QuerySnapshot?, exception: FirebaseFirestoreException?) {
                 exception?.let {
                      activity!!.toast("Exception!")
@@ -101,13 +104,19 @@ class ChatFragment : Fragment() {
                 snapshot?.let {
                     messageList.clear()
                     val messages=it.toObjects(Message::class.java)
-                    messageList.addAll(messages)
+                    messageList.addAll(messages.asReversed())//cambia o voltea la lista
                     adapter.notifyDataSetChanged()
+                    _view.recyclerViewChat.smoothScrollToPosition(messageList.size)//scrollea hasta el final de la lista
                 }
 
             }
 
         })
+    }
+
+    override fun onDestroy() {
+        chatSubscription?.remove()//se remueve el listener para optimizacion
+        super.onDestroy()
     }
 
 }
