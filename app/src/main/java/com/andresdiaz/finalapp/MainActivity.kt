@@ -19,7 +19,6 @@ class MainActivity :ToolbarActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         toolbarToLoad(toolbarView as Toolbar)
-
         setUpViewPager(getPagerAdapter())
         setUpBottomNavigationBar()
     }
