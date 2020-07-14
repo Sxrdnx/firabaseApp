@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.andresdiaz.finalapp.R
+import com.andresdiaz.finalapp.models.TotalMessagesEvent
 import com.andresdiaz.finalapp.toast
 import com.andresdiaz.finalapp.util.CircleTransform
+import com.andresdiaz.finalapp.util.RxBus
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
@@ -29,13 +31,12 @@ class InfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _View = inflater.inflate(R.layout.fragment_info, container, false)
         setUpChatDB()
         setUpCurrentUser()
         setUpCurrentUserInfoUI()
-        //Total messages firebaseStyle
-        subscribeTotalMessagesFirebaseStyle()
+      //Total message Evente Bus + ReactiveStyle
+        subscribeToTotalMessagesEventBusReactiveStyle()
         return _View
     }
 
@@ -70,6 +71,12 @@ class InfoFragment : Fragment() {
                 snapshot?.let { _View.textViewInfoTotalMessages.text = "${it.size()}" }
             }
         })
+    }
+
+    private fun subscribeToTotalMessagesEventBusReactiveStyle(){
+        RxBus.listen(TotalMessagesEvent::class.java).subscribe {
+            _View.textViewInfoTotalMessages.text="${it.total}"
+        }
     }
 
     override fun onDestroyView() {
