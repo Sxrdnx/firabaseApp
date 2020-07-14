@@ -30,7 +30,6 @@ class ChatFragment : Fragment() {
     private lateinit var currentUser: FirebaseUser
     private val  store: FirebaseFirestore= FirebaseFirestore.getInstance()
     private lateinit var chatDBRef: CollectionReference
-
     private var chatSubscription: ListenerRegistration?=null
 
 
