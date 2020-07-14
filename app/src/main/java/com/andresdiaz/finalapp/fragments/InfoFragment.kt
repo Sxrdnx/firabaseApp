@@ -6,15 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.andresdiaz.finalapp.R
+import com.andresdiaz.finalapp.toast
 import com.andresdiaz.finalapp.util.CircleTransform
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.*
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.fragment_info.view.*
+import java.util.*
+import java.util.EventListener
 
 class InfoFragment : Fragment() {
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -33,6 +34,8 @@ class InfoFragment : Fragment() {
         setUpChatDB()
         setUpCurrentUser()
         setUpCurrentUserInfoUI()
+        //Total messages firebaseStyle
+        subscribeTotalMessagesFirebaseStyle()
         return _View
     }
 
@@ -46,7 +49,7 @@ class InfoFragment : Fragment() {
 
     private fun setUpCurrentUserInfoUI() {
         _View.textViewInfoEmail.text = currentUser.email
-        _View.textViewInfoName.text = currentUser.displayName?.let { currentUser.displayName }
+        _View.textViewInfoName.text = currentUser.displayName?.let { it }
             ?: run { getString(R.string.info_no_name) }
         currentUser.photoUrl?.let {
             Picasso.get().load(currentUser.photoUrl).resize(300, 300)
@@ -56,6 +59,24 @@ class InfoFragment : Fragment() {
                 .centerCrop().transform(CircleTransform()).into(_View.imageViewInfo)
         }
     }
+
+    private fun subscribeTotalMessagesFirebaseStyle(){//esto es para colecciones Pequeñas
+        chatSubscription=chatDBRef.addSnapshotListener(object : EventListener,com.google.firebase.firestore.EventListener<QuerySnapshot>{
+            override fun onEvent(snapshot: QuerySnapshot?, exception: FirebaseFirestoreException?) {
+                exception?.let {
+                    activity!!.toast("Exception!")
+                    return
+                }
+                snapshot?.let { _View.textViewInfoTotalMessages.text = "${it.size()}" }
+            }
+        })
+    }
+
+    override fun onDestroyView() {
+        chatSubscription?.remove()
+        super.onDestroyView()
+    }
 }
+
 
 

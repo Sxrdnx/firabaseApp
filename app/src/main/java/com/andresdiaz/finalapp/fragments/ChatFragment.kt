@@ -101,7 +101,7 @@ class ChatFragment : Fragment() {
                      activity!!.toast("Exception!")
                     return
                 }
-                snapshot?.let {
+      ma          snapshot?.let {
                     messageList.clear()
                     val messages=it.toObjects(Message::class.java)
                     messageList.addAll(messages.asReversed())//cambia o voltea la lista
@@ -114,9 +114,9 @@ class ChatFragment : Fragment() {
         })
     }
 
-    override fun onDestroy() {
-        chatSubscription?.remove()//se remueve el listener para optimizacion
-        super.onDestroy()
+    override fun onDestroyView() {//se remueve el listener para optimazion
+        chatSubscription?.remove()
+        super.onDestroyView()
     }
 
 }
