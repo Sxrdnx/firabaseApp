@@ -101,7 +101,7 @@ class ChatFragment : Fragment() {
                      activity!!.toast("Exception!")
                     return
                 }
-      ma          snapshot?.let {
+                snapshot?.let {
                     messageList.clear()
                     val messages=it.toObjects(Message::class.java)
                     messageList.addAll(messages.asReversed())//cambia o voltea la lista
