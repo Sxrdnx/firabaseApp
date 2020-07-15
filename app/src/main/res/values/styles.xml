@@ -14,7 +14,11 @@
     </style>
     <style name="NoPreview" parent="AppTheme">
         <item name="android:windowDisablePreview">true</item> <!--para elminar el destello del cambio de activity-->
-
+    </style>
+    <style name="custom_rating_bar_start" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressDrawable">@drawable/rate_bar_custom</item>
+        <item name="android:minHeight">48dip</item>
+        <item name="android:maxHeight">48dip</item>
     </style>
 
 </resources>
