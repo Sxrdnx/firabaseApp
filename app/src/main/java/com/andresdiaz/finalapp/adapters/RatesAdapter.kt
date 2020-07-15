@@ -25,6 +25,4 @@ class RatesAdapter (private val items: List<Rate>): RecyclerView.Adapter<RatesAd
                 .centerCrop().transform(CircleTransform()).into(imageViewProfile)
         }
     }
-
-
 }
