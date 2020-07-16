@@ -21,6 +21,10 @@ class RatesAdapter (private val items: List<Rate>): RecyclerView.Adapter<RatesAd
             textViewRate.text=rate.text
             textViewStar.text=rate.rate.toString()
             textViewCalendar.text= SimpleDateFormat("dd MMM, yyyy").format(rate.createdAt)
+            if (rate.profileImgURL.isEmpty()){
+                Picasso.get().load(R.drawable.ic_person).resize(100, 100)
+                    .centerCrop().transform(CircleTransform()).into(imageViewProfile)
+            }
             Picasso.get().load(rate.profileImgURL).resize(100,100)
                 .centerCrop().transform(CircleTransform()).into(imageViewProfile)
         }

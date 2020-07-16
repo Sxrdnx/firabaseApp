@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import com.squareup.picasso.Picasso
+import io.reactivex.rxjava3.disposables.Disposable
 
 import kotlinx.android.synthetic.main.fragment_info.view.*
 import java.util.*
@@ -25,6 +26,7 @@ class InfoFragment : Fragment() {
     private val store: FirebaseFirestore = FirebaseFirestore.getInstance()
     private lateinit var chatDBRef: CollectionReference
     private var chatSubscription: ListenerRegistration? = null
+    private lateinit var chatBusListener: Disposable
     private lateinit var _View: View
 
     override fun onCreateView(
@@ -74,12 +76,13 @@ class InfoFragment : Fragment() {
     }
 
     private fun subscribeToTotalMessagesEventBusReactiveStyle(){
-        RxBus.listen(TotalMessagesEvent::class.java).subscribe {
+        chatBusListener =  RxBus.listen(TotalMessagesEvent::class.java).subscribe {
             _View.textViewInfoTotalMessages.text="${it.total}"
         }
     }
 
     override fun onDestroyView() {
+        chatBusListener.dispose()
         chatSubscription?.remove()
         super.onDestroyView()
     }
