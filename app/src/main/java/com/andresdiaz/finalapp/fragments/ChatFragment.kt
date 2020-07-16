@@ -56,7 +56,6 @@ class ChatFragment : Fragment() {
 
     private fun setUpCurrentUser(){
         currentUser=mAuth.currentUser!!
-
     }
 
     private fun setUpRecyclerView(){
