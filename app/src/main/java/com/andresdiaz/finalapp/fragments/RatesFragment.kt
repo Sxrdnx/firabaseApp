@@ -63,7 +63,7 @@ class RatesFragment : Fragment() {
         currentUser = mAuth.currentUser!!
     }
 
-    private fun setUpRecyclerView() {
+     private fun setUpRecyclerView() {
         val layoutManager = LinearLayoutManager(context)
         adapter = RatesAdapter(ratesList)
         _view.recyclerViewRates.setHasFixedSize(true)
